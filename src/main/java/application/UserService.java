@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -19,8 +21,13 @@ public class UserService {
         this.dynamoDBMapper = dynamoDBMapper;
     }
 	
-	public User read(String userId) {
-		return dynamoDBMapper.load(User.class, userId);
+	public ResponseEntity<User> read(String userId) {
+		User user = dynamoDBMapper.load(User.class, userId);
+		if (user != null) { 
+		return ResponseEntity.ok().body(user);
+		} else {
+			throw new ResourceNotFoundException("id="+userId, null);
+		}
 	}
 
 	public User create(User user) {
@@ -35,10 +42,9 @@ public class UserService {
 		return users;
 	}
 
-	public User update(String userId, User user) {
-		dynamoDBMapper.load(User.class, userId);
+	public ResponseEntity<String> update(String userId, User user) {
 		dynamoDBMapper.save(user);
-		return user;
+		return ResponseEntity.ok("Successfull");
 	}
 
 	public void delete(String userId) {
