@@ -1,4 +1,4 @@
-package application;
+package com.app.exception;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package application;
+package com.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.app.model.User;
 
 @Service
 public class UserService {
@@ -21,10 +22,10 @@ public class UserService {
         this.dynamoDBMapper = dynamoDBMapper;
     }
 	
-	public ResponseEntity<User> read(String userId) {
+	public User read(String userId) {
 		User user = dynamoDBMapper.load(User.class, userId);
 		if (user != null) { 
-		return ResponseEntity.ok().body(user);
+		return user;
 		} else {
 			throw new ResourceNotFoundException("id="+userId, null);
 		}

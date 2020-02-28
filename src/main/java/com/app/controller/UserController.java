@@ -1,4 +1,4 @@
-package application;
+package com.app.controller;
 
 import java.util.List;
 
@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.model.User;
+import com.app.service.UserService;
 
 
 @RestController
@@ -30,7 +33,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/{userId}")
-	public ResponseEntity<User> readUser(@PathVariable String userId) {
+	public User readUser(@PathVariable String userId) {
 		 
 		return userService.read(userId);
 	}
