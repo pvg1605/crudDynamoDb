@@ -11,6 +11,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * 
+ * 
+ * @author praveenv
+ *
+ *ResponseEntityExceptionHandler is a convenient base class for to provide centralized exception
+ * handling across all @RequestMapping methods through @ExceptionHandler methods. 
+ *@ControllerAdvice is more for enabling auto-scanning and configuration at application startup.
+ *
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)

@@ -1,7 +1,6 @@
 package com.app.controller;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,8 +25,15 @@ import com.app.model.User;
 import com.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * @author praveenv
+ *
+ *Write tests for UserController by injecting a Mock UserService bean and invoke API endpoints using MockMvc.
+ *As SpringBoot is creating the UserController instance we are creating mock UserService bean using Spring’s @MockBean.
+ */
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = UserController.class)
+@WebMvcTest(controllers = UserController.class)
 public class UserControllerTest {
 	
 	@Autowired
@@ -93,7 +98,7 @@ public class UserControllerTest {
         user.setEmail("praveen.v@practo.com");
         user.setPhone("9876543210");
         
-        given(userService.update("1",user)).willReturn(ResponseEntity.ok(""));
+        given(userService.update("1",user)).willReturn(user);
         
         this.mockMvc.perform(put("/users/1").contentType(MediaType.APPLICATION_JSON_UTF8)
             .content(objectMapper.writeValueAsString(user)))
@@ -107,7 +112,7 @@ public class UserControllerTest {
         user.setEmail("praveen.v@practo.com");
         user.setPhone("9876543210");
         
-        doNothing().when(userService).delete("1");
+        given(userService.delete("1")).willReturn(user);
         
         this.mockMvc.perform(delete("/users/1"))
         	.andExpect(status().isOk());

@@ -1,0 +1,9 @@
+com/app/repository/UserRepository.class
+com/app/exception/ErrorDetails.class
+com/app/config/DynamoConfig.class
+com/app/exception/ResourceNotFoundException.class
+com/app/exception/GlobalExceptionHandler.class
+com/app/model/User.class
+com/app/controller/UserController.class
+com/app/service/UserService.class
+com/app/Application.class

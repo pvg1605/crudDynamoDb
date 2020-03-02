@@ -5,7 +5,12 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-
+/**
+ * special class which will be returned for all failure cases. 
+ * 
+ * @author praveenv
+ *
+ */
 public class ErrorDetails {
 	public ErrorDetails(Date date, String message2, String description) {
 		this.timestamp=date;

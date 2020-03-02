@@ -5,53 +5,82 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.app.model.User;
+import com.app.repository.UserRepository;
 
+/**
+ * The basic Crud Operations
+ * 
+ * @author praveenv
+ *
+ */
 @Service
 public class UserService {
 	
-	private DynamoDBMapper dynamoDBMapper;
-
-    @Autowired
-    public UserService(DynamoDBMapper dynamoDBMapper) {
-        this.dynamoDBMapper = dynamoDBMapper;
-    }
+	@Autowired
+	private UserRepository userRepository;
 	
+	/**
+	 * Create Entity
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User create(User user) {
+		return userRepository.create(user);
+	}
+	
+	/**
+	 * Get all entities
+	 * 
+	 * @return
+	 */
+	public List<User> getAll() {
+		List<User> users = new ArrayList<>();
+		users=userRepository.getAll();
+		if (users != null) {
+		return users;
+		} else {
+			throw new ResourceNotFoundException("No users Found", null);
+		}
+	}
+	
+	/**
+	 * Get Entity by Id
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	public User read(String userId) {
-		User user = dynamoDBMapper.load(User.class, userId);
+		User user = userRepository.read(userId);
 		if (user != null) { 
 		return user;
 		} else {
 			throw new ResourceNotFoundException("id="+userId, null);
 		}
 	}
-
-	public User create(User user) {
-		
-		dynamoDBMapper.save(user);
-		return user;
+	
+	/**
+	 * Update Entity
+	 * 
+	 * @param userId
+	 * @param user
+	 * @return
+	 */
+	public User update(String userId, User user) {
+		return userRepository.update(user);
 	}
-
-	public List<User> getAll() {
-		List<User> users = new ArrayList<>();
-		users=dynamoDBMapper.scan(User.class,new DynamoDBScanExpression());
-		return users;
-	}
-
-	public ResponseEntity<String> update(String userId, User user) {
-		dynamoDBMapper.save(user);
-		return ResponseEntity.ok("Successfull");
-	}
-
-	public void delete(String userId) {
-		User user = dynamoDBMapper.load(User.class, userId);
-		dynamoDBMapper.delete(user);
-		
+	
+	/**
+	 * Delete Entity
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public User delete(String userId) {
+		return userRepository.delete(userId);
 	}
 
 }
